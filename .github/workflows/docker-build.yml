@@ -40,7 +40,8 @@ jobs:
             --cache-from=ghcr.io/${{ github.repository }}:cache \
             --cache-to=type=local,dest=/tmp/.buildx-cache \
             -t ghcr.io/${{ github.repository }}:latest \
-            --push .
+            --output=type=registry \
+            .
 
       - name: Push the Docker image
         run: |
