@@ -47,14 +47,14 @@ def fetch_html(url, proxy=None):
 
 def can_process_request():
     """Check if there are enough resources to process a new request."""
-    if concurrent_seleniumbase == 0:
-        return True
+    # if concurrent_seleniumbase == 0:
+    #     return True
     cpu_usage = psutil.cpu_percent()
     memory_info = psutil.virtual_memory()
     free_memory = memory_info.available / (1024 * 1024)  # Convert to MB
 
     # Calculate if we can process a new request
-    return free_memory > 150 and cpu_usage < 80  # Example thresholds
+    return free_memory > 300 and cpu_usage < 80  # Example thresholds
 
 def wait_for_resources(timeout=resource_timeout):
     """Wait until resources are available to process a request, with a timeout."""
