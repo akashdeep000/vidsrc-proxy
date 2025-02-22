@@ -56,7 +56,7 @@ RUN apt-get -qy --no-install-recommends install \
 # Install Chrome
 #================
 RUN apt-get update
-RUN apt-get install -y chromium-browser
+RUN apt-get install -y chromium
 
 
 # Copy the requirements file first to leverage Docker cache
