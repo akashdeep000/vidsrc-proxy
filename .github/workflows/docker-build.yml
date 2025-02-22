@@ -31,8 +31,8 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:latest
-          cache-from: type=registry,ref=user/app:buildcache
-          cache-to: type=registry,ref=user/app:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache,mode=max
 
     #   - name: Push the Docker image
     #     run: |
