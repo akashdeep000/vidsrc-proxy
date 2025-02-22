@@ -56,8 +56,9 @@ RUN apt-get -qy --no-install-recommends install \
 # Install Chrome
 #================
 RUN apt-get update
-RUN apt-get install -y chromium
-
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+RUN rm ./google-chrome-stable_current_amd64.deb
 
 # Copy the requirements file first to leverage Docker cache
 COPY requirements.txt .
