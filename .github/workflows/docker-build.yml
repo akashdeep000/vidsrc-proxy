@@ -27,21 +27,19 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+        uses: actions/cache@v1
+        with: 
+          path: ${{ github.workspace }}/cache
+          key: ${{ runner.os }}-docker-${{ hashfiles('cache/**') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
       - name: Build the Docker image
         run: |
           docker buildx build \
-            --cache-from=ghcr.io/${{ github.repository }}:cache \
-            --cache-to=type=local,dest=/tmp/.buildx-cache \
-            -t ghcr.io/${{ github.repository }}:latest \
-            --output=type=registry \
-            .
+          --cache-from "type=local,src=$GITHUB_WORKSPACE/cache"
+          --cache-to "type=local,dest=$GITHUB_WORKSPACE/cache"
+          --output "type=image, name=ghcr.io/${{ github.repository }}:latest,push=false"
 
       - name: Push the Docker image
         run: |
