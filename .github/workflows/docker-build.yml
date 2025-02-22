@@ -1,4 +1,3 @@
-# .github/workflows/docker-build.yml
 name: Build and Publish Docker Image
 
 on:
@@ -10,8 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-        contents: read
-        packages: write  # Ensure the workflow has permission to write packages
+      contents: read
+      packages: write  # Ensure the workflow has permission to write packages
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -23,9 +23,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Build the Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}:latest .
+          docker buildx build \
+            --cache-from=ghcr.io/${{ github.repository }}:cache \
+            --cache-to=type=local,dest=/tmp/.buildx-cache \
+            -t ghcr.io/${{ github.repository }}:latest \
+            --push .
 
       - name: Push the Docker image
         run: |
