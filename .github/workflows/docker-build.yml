@@ -29,11 +29,11 @@ jobs:
       - name: Build the Docker image
         uses: docker/build-push-action@v6
         with:
-          push: false
+          push: true
           tags: ghcr.io/${{ github.repository }}:latest
-          cache-from: type=registry,ref=user/app:latest
-          cache-to: type=inline
+          cache-from: type=registry,ref=user/app:buildcache
+          cache-to: type=registry,ref=user/app:buildcache,mode=max
 
-      - name: Push the Docker image
-        run: |
-          docker push ghcr.io/${{ github.repository }}:latest
+    #   - name: Push the Docker image
+    #     run: |
+    #       docker push ghcr.io/${{ github.repository }}:latest
