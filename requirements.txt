@@ -1,3 +1,4 @@
 seleniumbase
 flask
 psutil
+gunicorn
