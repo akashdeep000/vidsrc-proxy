@@ -9,22 +9,6 @@ ENV RESOURCE_TIMEOUT=60
 # Set the working directory
 WORKDIR /app
 
-#======================
-# Install Common Fonts
-#======================
-RUN apt-get update
-RUN apt-get install -y \
-    fonts-liberation \
-    fonts-liberation2 \
-    fonts-font-awesome \
-    fonts-ubuntu \
-    fonts-terminus \
-    fonts-powerline \
-    fonts-open-sans \
-    fonts-mononoki \
-    fonts-roboto \
-    fonts-lato
-
 #============================
 # Install Linux Dependencies
 #============================
