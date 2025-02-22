@@ -22,7 +22,7 @@ def fetch_html(url, proxy=None):
     with lock:
         concurrent_seleniumbase += 1
     try:
-        with SB(uc=True, headless=True, locale_code="en", data="./data", proxy=proxy) as sb:
+        with SB(uc=True, headless2=True, locale_code="en", xvfb=True, proxy=proxy) as sb:
             sb.activate_cdp_mode(url)
 
             if sb.is_element_present("#iframe_title"):
