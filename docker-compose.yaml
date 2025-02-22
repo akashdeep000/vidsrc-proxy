@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-    container_name: my_python_app
+    container_name: vidsrc-proxy
     ports:
       - "5000:5000"
     environment:
