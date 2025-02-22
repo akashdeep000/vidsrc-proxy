@@ -60,6 +60,11 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
 RUN rm ./google-chrome-stable_current_amd64.deb
 
+#================
+# Install Chromium
+#================
+RUN apt-get install -y chromium
+
 # Copy the requirements file first to leverage Docker cache
 COPY requirements.txt .
 
