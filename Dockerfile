@@ -9,11 +9,18 @@ ENV RESOURCE_TIMEOUT=60
 # Set the working directory
 WORKDIR /app
 
+# Install curl and other dependencies
+RUN apt-get update && \
+    apt-get install -y curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy the requirements file first to leverage Docker cache
 COPY requirements.txt .
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip show gunicorn
 
 # Copy the application code
 COPY . .
@@ -22,8 +29,8 @@ COPY . .
 EXPOSE 5000
 
 # Add a health check
-# HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-#   CMD curl -f http://localhost:5000/health || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:5000/health || exit 1
 
 # Command to run the application
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
